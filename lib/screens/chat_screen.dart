@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:chatbot_flutter/constants.dart';
 
 class ChatScreen extends StatefulWidget {
+  static const chatRouteID = 'chat';
+
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }

@@ -1,7 +1,9 @@
+import 'package:chatbot_flutter/screens/login_screen.dart';
+import 'package:chatbot_flutter/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  static String id = 'welcome';
+  static const String welcomeRouteID = 'welcome';
 
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
@@ -46,6 +48,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: MaterialButton(
                   onPressed: () {
                     //Go to login screen.
+                    Navigator.pushNamed(context, LoginScreen.loginRouteID);
+                    // Navigator.of(context).push(
+                    //     MaterialPageRoute(builder: (context) => LoginScreen()));
                   },
                   minWidth: 200.0,
                   height: 42.0,
@@ -64,6 +69,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: MaterialButton(
                   onPressed: () {
                     //Go to registration screen.
+                    Navigator.pushNamed(
+                        context, RegistrationScreen.registerRouteID);
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //     builder: (context) => RegistrationScreen()));
                   },
                   minWidth: 200.0,
                   height: 42.0,
