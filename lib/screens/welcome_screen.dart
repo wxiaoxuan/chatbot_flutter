@@ -1,6 +1,7 @@
 import 'package:chatbot_flutter/screens/login_screen.dart';
 import 'package:chatbot_flutter/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String welcomeRouteID = 'welcome';
@@ -17,24 +18,30 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
   // Create Custom Flutter Animation w Animation Controller
   late AnimationController controller;
-  late Animation animation; // for curved animation
+  late Animation curvedAnimation; // for curved animation
+  late Animation tweenAnimationLogin; // for tween animation login btn
+  late Animation tweenAnimationRegisterBtn; // for tween animation register btn
 
   @override
   void initState() {
     super.initState();
 
+    // ==================================================================================
     // Linear Animation (small to big 0-100)
+    // ==================================================================================
     // vsync: provide ticker provider to create animation controller
     // ticker provider is gg to be the state object aka _WelcomeScreenState
     controller = AnimationController(
-      duration: Duration(seconds: 1),
+      duration: Duration(seconds: 2),
       vsync: this, // who is gg to provide the ticker for animation controller
       // upperBound: 100.0,
     );
 
+    // ==================================================================================
     // Curved Animation
+    // ==================================================================================
     // curve: have to draw 0 to 1. cannot be above 1 for upperBound
-    animation = CurvedAnimation(parent: controller, curve: Curves.decelerate);
+    // animation = CurvedAnimation(parent: controller, curve: Curves.decelerate);
 
     // To proceed the animation forward
     controller.forward();
@@ -43,22 +50,33 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     // controller.reverse(from: 1.0);
 
     // To loop the animation (small > big > small > big)
-    animation.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        controller.reverse(from: 1.0);
-      } else if (status == AnimationStatus.dismissed) {
-        controller.forward();
-      }
-      // status - forward end result: AnimationStatus.complete
-      // status - reverse end result: AnimationStatus.dismissed
-      // print(status);
-    });
+    // animation.addStatusListener((status) {
+    //   if (status == AnimationStatus.completed) {
+    //     controller.reverse(from: 1.0);
+    //   } else if (status == AnimationStatus.dismissed) {
+    //     controller.forward();
+    //   }
+    //   // status - forward end result: AnimationStatus.complete
+    //   // status - reverse end result: AnimationStatus.dismissed
+    //   // print(status);
+    // });
+
+    // ==================================================================================
+    // Tween Animation
+    // ==================================================================================
+    tweenAnimationLogin =
+        ColorTween(begin: Colors.lightBlueAccent, end: Colors.lightBlue)
+            .animate(controller);
+
+    tweenAnimationRegisterBtn =
+        ColorTween(begin: Colors.lightBlue, end: Colors.blueAccent)
+            .animate(controller);
 
     // Loader - used in Text Ln 14
     controller.addListener(() {
       setState(() {});
       // print(controller.value);
-      print(animation.value);
+      // print(curvedAnimation.value);
     });
 
     // Dispose our controller when the WelcomeScreen State is gg to be destroyed to prevent staying in memory (aka hogging resources)
@@ -71,6 +89,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // backgroundColor: tweenAnimation.value,
       backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
@@ -85,18 +104,31 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   tag: 'logo', // 2. make sure to match the logo in both files
                   child: Container(
                     child: Image.asset('images/logo.png'),
-                    // height: 60.0,
-                    height: animation.value * 100,
+                    height: 60.0,
+                    // height: curvedAnimation.value * 100,
                   ),
                 ),
-                Text(
-                  'Flash Chat',
-                  style: TextStyle(
+                // Document this part down for animated_text_kit animation (before & after)
+                // NEW
+                TypewriterAnimatedTextKit(
+                  text: [
+                    'Flash Chat',
+                  ],
+                  textStyle: TextStyle(
                     fontSize: 45.0,
                     fontWeight: FontWeight.w900,
                     color: Colors.black87,
                   ),
                 ),
+                // OLD
+                // Text(
+                //   'Flash Chat',
+                //   style: TextStyle(
+                //     fontSize: 45.0,
+                //     fontWeight: FontWeight.w900,
+                //     color: Colors.black87,
+                //   ),
+                // ),
               ],
             ),
             SizedBox(
@@ -106,7 +138,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               padding: EdgeInsets.symmetric(vertical: 16.0),
               child: Material(
                 elevation: 5.0,
-                color: Colors.lightBlueAccent,
+                // color: Colors.lightBlueAccent,
+                color: tweenAnimationLogin.value,
                 borderRadius: BorderRadius.circular(30.0),
                 child: MaterialButton(
                   onPressed: () {
@@ -126,7 +159,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             Padding(
               padding: EdgeInsets.symmetric(vertical: 16.0),
               child: Material(
-                color: Colors.blueAccent,
+                // color: Colors.blueAccent,
+                color: tweenAnimationRegisterBtn.value,
                 borderRadius: BorderRadius.circular(30.0),
                 elevation: 5.0,
                 child: MaterialButton(
@@ -172,3 +206,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 // CurvedAnimation class: https://api.flutter.dev/flutter/animation/CurvedAnimation-class.html
 // Curves class: https://api.flutter.dev/flutter/animation/Curves-class.html
 // Tween Animation
+
+// Pre-packaged Animations
+// - Flutter Sequence Animation: https://pub.dev/packages/flutter_sequence_animation
+// - Rubber: https://pub.dev/packages/rubber
+// - Sprung: https://pub.dev/packages/sprung
+// - Animated Text Kit: https://pub.dev/packages/animated_text_kit
