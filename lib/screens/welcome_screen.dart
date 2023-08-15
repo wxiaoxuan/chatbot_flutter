@@ -134,27 +134,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             SizedBox(
               height: 48.0,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                elevation: 5.0,
-                // color: Colors.lightBlueAccent,
-                color: tweenAnimationLogin.value,
-                borderRadius: BorderRadius.circular(30.0),
-                child: MaterialButton(
-                  onPressed: () {
-                    //Go to login screen.
-                    Navigator.pushNamed(context, LoginScreen.loginRouteID);
-                    // Navigator.of(context).push(
-                    //     MaterialPageRoute(builder: (context) => LoginScreen()));
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Log In',
-                  ),
-                ),
-              ),
+            RoundedButton(
+              title: 'Login',
+              color: tweenAnimationLogin.value,
+              onPressed: () {
+                Navigator.pushNamed(context, LoginScreen.loginRouteID);
+              },
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -195,6 +180,42 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class RoundedButton extends StatelessWidget {
+  RoundedButton({
+    required this.color,
+    required this.title,
+    required this.onPressed,
+    // required this.tweenAnimationLogin,
+  });
+
+  final Color color;
+  final String title;
+  final Function onPressed;
+  // final Animation tweenAnimationLogin;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0),
+      child: Material(
+        elevation: 5.0,
+        color: color,
+        // color: tweenAnimationLogin.value,
+        borderRadius: BorderRadius.circular(30.0),
+        child: MaterialButton(
+          onPressed: () {
+            onPressed;
+            // Navigator.pushNamed(context, LoginScreen.loginRouteID);
+          },
+          minWidth: 200.0,
+          height: 42.0,
+          child: Text(title),
         ),
       ),
     );
