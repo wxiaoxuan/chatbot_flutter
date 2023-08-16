@@ -1,7 +1,9 @@
-import 'package:chatbot_flutter/screens/login_screen.dart';
-import 'package:chatbot_flutter/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+
+import 'package:chatbot_flutter/screens/login_screen.dart';
+import 'package:chatbot_flutter/screens/registration_screen.dart';
+import 'package:chatbot_flutter/components/rounded_button.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String welcomeRouteID = 'welcome';
@@ -110,25 +112,25 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 ),
                 // Document this part down for animated_text_kit animation (before & after)
                 // NEW
-                TypewriterAnimatedTextKit(
-                  text: [
-                    'Flash Chat',
-                  ],
-                  textStyle: TextStyle(
-                    fontSize: 45.0,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black87,
-                  ),
-                ),
-                // OLD
-                // Text(
-                //   'Flash Chat',
-                //   style: TextStyle(
+                // TypewriterAnimatedTextKit(
+                //   text: [
+                //     'Flash Chat',
+                //   ],
+                //   textStyle: TextStyle(
                 //     fontSize: 45.0,
                 //     fontWeight: FontWeight.w900,
                 //     color: Colors.black87,
                 //   ),
                 // ),
+                // OLD
+                Text(
+                  'Flash Chat',
+                  style: TextStyle(
+                    fontSize: 45.0,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.black87,
+                  ),
+                ),
               ],
             ),
             SizedBox(
@@ -141,28 +143,13 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 Navigator.pushNamed(context, LoginScreen.loginRouteID);
               },
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                // color: Colors.blueAccent,
-                color: tweenAnimationRegisterBtn.value,
-                borderRadius: BorderRadius.circular(30.0),
-                elevation: 5.0,
-                child: MaterialButton(
-                  onPressed: () {
-                    //Go to registration screen.
-                    Navigator.pushNamed(
-                        context, RegistrationScreen.registerRouteID);
-                    // Navigator.of(context).push(MaterialPageRoute(
-                    //     builder: (context) => RegistrationScreen()));
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Register',
-                  ),
-                ),
-              ),
+            RoundedButton(
+              title: 'Register',
+              color: tweenAnimationRegisterBtn.value,
+              onPressed: () {
+                Navigator.pushNamed(
+                    context, RegistrationScreen.registerRouteID);
+              },
             ),
             Row(
               children: <Widget>[
@@ -180,42 +167,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               ],
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class RoundedButton extends StatelessWidget {
-  RoundedButton({
-    required this.color,
-    required this.title,
-    required this.onPressed,
-    // required this.tweenAnimationLogin,
-  });
-
-  final Color color;
-  final String title;
-  final Function onPressed;
-  // final Animation tweenAnimationLogin;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
-      child: Material(
-        elevation: 5.0,
-        color: color,
-        // color: tweenAnimationLogin.value,
-        borderRadius: BorderRadius.circular(30.0),
-        child: MaterialButton(
-          onPressed: () {
-            onPressed;
-            // Navigator.pushNamed(context, LoginScreen.loginRouteID);
-          },
-          minWidth: 200.0,
-          height: 42.0,
-          child: Text(title),
         ),
       ),
     );
