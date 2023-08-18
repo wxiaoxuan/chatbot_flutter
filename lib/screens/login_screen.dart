@@ -82,14 +82,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (user != null) {
                         Navigator.pushNamed(context, ChatScreen.chatRouteID);
                       }
-
-                      // End Loading Spinner
-                      setState(() {
-                        showSpinner = false;
-                      });
                     } catch (e) {
                       print(e);
                     }
+
+                    // End Loading Spinner
+                    setState(() {
+                      showSpinner = false;
+                    });
                   },
                 ),
               ],
